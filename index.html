@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autopartes Pitalito — Repuestos y lujos para tu carro</title>
+<meta name="description" content="Catálogo de repuestos y lujos para carros en Pitalito, Huila.">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<div class="aviso-demo">Maqueta de presentación · los datos y el escáner son de demostración</div>
+
+<div id="rail"></div>
+
+<div class="lienzo">
+
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="marca" href="index.html">
+        <div>
+          <b>Autopartes</b><small>Pitalito, Huila</small>
+        </div>
+        <i></i>
+      </a>
+
+      <form class="buscador" id="form-buscar" role="search" autocomplete="off">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+        <input type="search" id="q" placeholder="Busca pastillas, filtro, rines, referencia…" aria-label="Buscar productos">
+        <button type="button" class="btn-escanear" id="btn-escanear" title="Identifica tu carro con la cámara">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M7 12h10"/></svg>
+          <span>Escanear auto</span>
+        </button>
+        <button type="submit" class="btn-enviar" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <div class="topbar-acciones">
+        <span class="chip-auto" id="chip-auto">
+          <span id="chip-texto"></span>
+          <button id="chip-quitar" aria-label="Quitar filtro de vehículo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <span class="hero-eyebrow"><i></i> Entrega el mismo día en Pitalito</span>
+        <h1>Todo para tu carro, en un solo lugar.</h1>
+        <p>Repuestos originales y homologados, y los lujos que le faltan. Escanea tu carro y te mostramos solo lo que le sirve.</p>
+        <div class="hero-acciones">
+          <button class="btn btn--violeta" id="hero-escanear">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M7 12h10"/></svg>
+            Escanear mi carro
+          </button>
+          <a class="btn btn--linea" href="#catalogo">Ver catálogo</a>
+        </div>
+      </div>
+      <div class="hero-arte" id="hero-arte"></div>
+    </section>
+
+    <!-- Destacados -->
+    <section class="seccion" id="destacados">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Lo que más sale</span>
+          <h2 style="margin-top:4px">Destacados de la semana</h2>
+        </div>
+      </div>
+      <div class="grid" id="grid-destacados"></div>
+    </section>
+
+    <!-- Catálogo -->
+    <section class="seccion" id="catalogo">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Catálogo</span>
+          <h2 style="margin-top:4px" id="titulo-catalogo">Todos los productos</h2>
+        </div>
+        <span class="silencio" style="font-size:13px" id="conteo-catalogo"></span>
+      </div>
+
+      <div class="pills" id="pills-tipo" style="margin-bottom:10px"></div>
+      <div class="pills" id="pills-categoria" style="margin-bottom:22px"></div>
+
+      <div class="grid" id="grid-catalogo"></div>
+    </section>
+
+    <!-- Servicios -->
+    <section class="seccion">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Por qué comprarnos</span>
+          <h2 style="margin-top:4px">Más que vender repuestos</h2>
+        </div>
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M7 12h10"/></svg>
+          <h3>Identificamos tu carro</h3>
+          <p>Escanea con la cámara y filtramos el catálogo. Sin equivocarte de referencia.</p>
+        </div>
+        <div class="info-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+          <h3>Inventario en vivo</h3>
+          <p>Lo que ves en la página es lo que hay en la bodega. Sin viajes en vano.</p>
+        </div>
+        <div class="info-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16z"/></svg>
+          <h3>Instalación en el local</h3>
+          <p>Montamos rines, audio, polarizado y luces el mismo día de la compra.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ubicación -->
+    <section class="seccion" id="ubicacion">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Visítanos</span>
+          <h2 style="margin-top:4px">Estamos en Pitalito, Huila</h2>
+        </div>
+        <a class="btn btn--negro btn--sm" id="btn-wa-general" href="#" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.6A8.2 8.2 0 1 1 8.4 19l-4.9 1.5z"/></svg>
+          Escríbenos por WhatsApp
+        </a>
+      </div>
+      <div class="mapa">
+        <div class="mapa-pin">
+          <b id="dir-linea">—</b>
+          <span class="silencio" id="horario-linea">—</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span id="pie-negocio">—</span>
+      <span>Maqueta de presentación · 2026</span>
+    </footer>
+
+  </main>
+</div>
+
+<!-- Modal de detalle de producto -->
+<div class="modal" id="modal-producto">
+  <div class="modal-caja modal-caja--ancho" role="dialog" aria-label="Detalle del producto">
+    <div class="modal-cabeza">
+      <span class="micro">Detalle del producto</span>
+      <button class="icon-btn" data-cerrar-modal aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-cuerpo" id="detalle-cuerpo"></div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/db.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/escaner.js"></script>
+<script src="assets/js/tienda.js"></script>
+</body>
+</html>

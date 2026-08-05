@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventario — Autopartes Pitalito</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<div class="aviso-demo">Panel interno de la maqueta · los cambios se guardan en este navegador</div>
+
+<div id="rail"></div>
+
+<div class="lienzo">
+
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="marca" href="index.html">
+        <div><b>Inventario</b><small>Autopartes Pitalito</small></div>
+        <i></i>
+      </a>
+
+      <div class="buscador">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+        <input type="search" id="q" placeholder="Buscar por nombre, marca o referencia…" aria-label="Buscar en el inventario">
+      </div>
+
+      <div class="topbar-acciones">
+        <button class="btn btn--violeta btn--sm" id="btn-nuevo">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Nuevo producto
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <section class="seccion" style="padding-top:32px">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Resumen</span>
+          <h2 style="margin-top:4px">Estado de la bodega</h2>
+        </div>
+        <button class="btn btn--linea btn--sm" id="btn-restablecer">Restablecer datos demo</button>
+      </div>
+      <div class="kpis" id="kpis"></div>
+    </section>
+
+    <section class="seccion" style="padding-top:44px">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Productos</span>
+          <h2 style="margin-top:4px">Listado de inventario</h2>
+        </div>
+        <span class="silencio" style="font-size:13px" id="conteo"></span>
+      </div>
+
+      <div class="pills" id="filtros"></div>
+
+      <div class="tabla-caja">
+        <div class="tabla-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Referencia</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th style="text-align:right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" style="padding-top:44px">
+      <div class="seccion-cabeza">
+        <div>
+          <span class="micro">Kardex</span>
+          <h2 style="margin-top:4px">Últimos movimientos</h2>
+        </div>
+      </div>
+      <div class="tabla-caja" style="padding:8px 24px">
+        <div class="movimientos" id="movimientos"></div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Panel de inventario — maqueta</span>
+      <a href="index.html">Ver la tienda →</a>
+    </footer>
+
+  </main>
+</div>
+
+<!-- Modal de producto -->
+<div class="modal" id="modal-form">
+  <div class="modal-caja" role="dialog" aria-label="Formulario de producto">
+    <div class="modal-cabeza">
+      <div>
+        <span class="micro">Inventario</span>
+        <h2 style="margin-top:4px" id="form-titulo">Nuevo producto</h2>
+      </div>
+      <button class="icon-btn" data-cerrar-modal aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="form-producto">
+      <div class="modal-cuerpo">
+        <input type="hidden" name="id">
+
+        <div class="campo">
+          <label for="f-nombre">Nombre del producto</label>
+          <input id="f-nombre" name="nombre" required placeholder="Ej: Pastillas de freno delanteras">
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="f-marca">Marca</label>
+            <input id="f-marca" name="marca" required placeholder="Ej: Brembo">
+          </div>
+          <div class="campo">
+            <label for="f-ref">Referencia</label>
+            <input id="f-ref" name="ref" required placeholder="Ej: BR-P4521">
+          </div>
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="f-tipo">Tipo</label>
+            <select id="f-tipo" name="tipo">
+              <option>Repuestos</option>
+              <option>Lujos</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="f-categoria">Categoría</label>
+            <select id="f-categoria" name="categoria"></select>
+          </div>
+        </div>
+
+        <div class="fila-3">
+          <div class="campo">
+            <label for="f-precio">Precio (COP)</label>
+            <input id="f-precio" name="precio" type="number" min="0" step="1000" required placeholder="0">
+          </div>
+          <div class="campo">
+            <label for="f-stock">Stock actual</label>
+            <input id="f-stock" name="stock" type="number" min="0" required placeholder="0">
+          </div>
+          <div class="campo">
+            <label for="f-stockMin">Stock mínimo</label>
+            <input id="f-stockMin" name="stockMin" type="number" min="0" required placeholder="3">
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="f-icon">Imagen del producto</label>
+          <select id="f-icon" name="icon"></select>
+        </div>
+
+        <div class="campo">
+          <label for="f-descripcion">Descripción</label>
+          <textarea id="f-descripcion" name="descripcion" placeholder="Detalles que le sirven al cliente para decidir…"></textarea>
+        </div>
+
+        <label class="check">
+          <input type="checkbox" name="destacado"> Mostrar en “Destacados de la semana”
+        </label>
+      </div>
+      <div class="modal-pie">
+        <button type="button" class="btn btn--claro" data-cerrar-modal>Cancelar</button>
+        <button type="submit" class="btn btn--violeta">Guardar producto</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div class="modal" id="modal-borrar">
+  <div class="modal-caja" style="max-width:420px" role="dialog" aria-label="Confirmar eliminación">
+    <div class="modal-cuerpo" style="padding-top:28px;text-align:center">
+      <h2>¿Eliminar este producto?</h2>
+      <p class="silencio" style="font-size:14px;margin-top:8px" id="borrar-nombre"></p>
+      <p class="silencio" style="font-size:13px;margin-top:10px">Desaparece del catálogo y del inventario.</p>
+    </div>
+    <div class="modal-pie" style="justify-content:center">
+      <button class="btn btn--claro" data-cerrar-modal>Cancelar</button>
+      <button class="btn btn--peligro" id="btn-borrar-ok">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/db.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/escaner.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
