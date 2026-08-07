@@ -1,0 +1,5 @@
+{"_example": "Fill with {\"file\": \"<path>\", \"reason\": \"<why>\"}. Put spec/research files only — no code paths. Run `python .trellis/scripts/get_context.py --mode packages` to list available specs. Delete this line once real entries are added."}
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Tokens del sistema Peloton y regla de cero sombras"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Patron de render y delegacion de eventos"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "Sin build ni dependencias; orden de carga de scripts"}
+{"file": "assets/css/app.css", "reason": "Hoja de estilos unica del proyecto"}
