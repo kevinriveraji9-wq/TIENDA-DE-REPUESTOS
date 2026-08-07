@@ -14,16 +14,21 @@
 
   /* ---------- Montaje inicial ---------- */
   function init() {
-    $('#rail').innerHTML = UI.rail('inicio');
-    $('#hero-arte').innerHTML = UI.arteProducto('rim', 'art');
+    $('#topbar').innerHTML = UI.barra('inicio');
+    $('#bloque-arte').innerHTML = UI.arteProducto('rim', 'art');
 
     $('#dir-linea').textContent = `${NEGOCIO.direccion} · ${NEGOCIO.ciudad}`;
     $('#horario-linea').textContent = `${NEGOCIO.horario} · ${NEGOCIO.telefono}`;
     $('#pie-negocio').textContent = `${NEGOCIO.nombre} — ${NEGOCIO.eslogan}`;
-    $('#btn-wa-general').href = enlaceWhatsApp('Hola, los contacto desde la página web.');
 
+    const saludo = 'Hola, los contacto desde la página web.';
+    $('#btn-wa-general').href = enlaceWhatsApp(saludo);
+    $('#btn-wa-mapa').href = enlaceWhatsApp(saludo);
+    $('#btn-wa-taller').href = enlaceWhatsApp('Hola, quiero agendar una instalación.');
+
+    pintarNota();
     pintarFiltros();
-    pintarDestacados();
+    pintarVitrina();
     pintar();
 
     Escaner.montar(aplicarVehiculo);
@@ -32,6 +37,12 @@
 
   function enlaceWhatsApp(texto) {
     return `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(texto)}`;
+  }
+
+  function pintarNota() {
+    const r = DB.resumen();
+    $('#hero-nota').textContent =
+      `${r.referencias} referencias disponibles · ${r.unidades} unidades en bodega`;
   }
 
   /* ---------- Filtros ---------- */
@@ -43,13 +54,17 @@
     ];
     $('#pills-tipo').innerHTML = tipos.map(t => `
       <button class="pill ${estado.tipo === t.id ? 'is-active' : ''}" data-tipo="${t.id}">
-        ${UI.icono(t.icon, 17)} ${t.nombre}
+        ${UI.icono(t.icon, 16)} ${t.nombre}
       </button>`).join('');
 
     $('#pills-categoria').innerHTML = CATEGORIAS.map(c => `
       <button class="pill ${estado.categoria === c.id ? 'is-active' : ''}" data-categoria="${c.id}">
         ${UI.arteProducto(c.icon, 'art')} ${c.nombre}
       </button>`).join('');
+
+    document.querySelectorAll('[data-tipo-nav]').forEach(a => {
+      a.classList.toggle('is-active', a.dataset.tipoNav === estado.tipo);
+    });
   }
 
   function filtrar() {
@@ -91,9 +106,21 @@
       </button>`;
   }
 
-  function pintarDestacados() {
-    const destacados = DB.todos().filter(p => p.destacado).slice(0, 5);
-    $('#grid-destacados').innerHTML = destacados.map(tarjeta).join('');
+  /* Destacados sobre el escenario oscuro */
+  function pintarVitrina() {
+    const destacados = DB.todos().filter(p => p.destacado).slice(0, 4);
+    $('#vitrina').innerHTML = destacados.map(p => `
+      <button class="vitrina-item card" data-id="${p.id}">
+        <span class="vitrina-img">${UI.arteProducto(p.icon)}</span>
+        <span class="card-cuerpo" style="padding:0">
+          <span class="card-marca">${UI.escape(p.marca)}</span>
+          <span class="card-nombre">${UI.escape(p.nombre)}</span>
+          <span class="card-pie">
+            <span class="card-precio">${UI.pesos(p.precio)}</span>
+            <span class="badge badge--rojo">Destacado</span>
+          </span>
+        </span>
+      </button>`).join('');
   }
 
   function pintar() {
@@ -114,7 +141,7 @@
       ? `Compatible con tu ${estado.vehiculo.marca} ${estado.vehiculo.linea}`
       : estado.categoria !== 'todos'
         ? (CATEGORIAS.find(c => c.id === estado.categoria) || {}).nombre
-        : 'Todos los productos';
+        : estado.tipo !== 'todos' ? estado.tipo : 'Todos los productos';
   }
 
   /* ---------- Detalle ---------- */
@@ -167,12 +194,11 @@
   /* ---------- Vehículo escaneado ---------- */
   function aplicarVehiculo(v) {
     estado.vehiculo = v;
-    const chip = $('#chip-auto');
     $('#chip-texto').textContent = `${v.marca} ${v.linea} ${v.anio}`;
-    chip.classList.add('visible');
+    $('#chip-auto').classList.add('visible');
     UI.toast(`Filtrando para ${v.marca} ${v.linea}`);
     pintar();
-    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    irAlCatalogo();
   }
 
   function quitarVehiculo() {
@@ -181,23 +207,34 @@
     pintar();
   }
 
+  function irAlCatalogo() {
+    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ---------- Buscadores (hero + catálogo, sincronizados) ---------- */
+  function buscar(valor, saltar) {
+    estado.q = valor.trim();
+    $('#q').value = estado.q;
+    $('#q2').value = estado.q;
+    pintar();
+    if (saltar) irAlCatalogo();
+  }
+
   /* ---------- Eventos ---------- */
   function eventos() {
-    $('#form-buscar').addEventListener('submit', (e) => {
-      e.preventDefault();
-      estado.q = $('#q').value.trim();
-      pintar();
-      document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    [['#form-buscar', '#q'], ['#form-buscar-2', '#q2']].forEach(([form, input]) => {
+      $(form).addEventListener('submit', (e) => {
+        e.preventDefault();
+        buscar($(input).value, true);
+      });
+      let t;
+      $(input).addEventListener('input', (e) => {
+        clearTimeout(t);
+        const v = e.target.value;
+        t = setTimeout(() => buscar(v, false), 180);
+      });
     });
 
-    let t;
-    $('#q').addEventListener('input', (e) => {
-      clearTimeout(t);
-      t = setTimeout(() => { estado.q = e.target.value.trim(); pintar(); }, 180);
-    });
-
-    $('#btn-escanear').addEventListener('click', Escaner.abrir);
-    $('#hero-escanear').addEventListener('click', Escaner.abrir);
     $('#chip-quitar').addEventListener('click', quitarVehiculo);
 
     $('#pills-tipo').addEventListener('click', (e) => {
@@ -217,16 +254,32 @@
     });
 
     document.body.addEventListener('click', (e) => {
+      /* Cualquier botón de escanear, esté donde esté */
+      const escanear = e.target.closest('[data-accion="escanear"]');
+      if (escanear && !e.target.closest('#modal-escaner')) {
+        e.preventDefault();
+        return Escaner.abrir();
+      }
+
+      /* Links "Repuestos" / "Lujos" de la barra superior */
+      const nav = e.target.closest('[data-tipo-nav]');
+      if (nav) {
+        e.preventDefault();
+        estado.tipo = nav.dataset.tipoNav;
+        estado.categoria = 'todos';
+        pintarFiltros();
+        pintar();
+        return irAlCatalogo();
+      }
+
       const card = e.target.closest('.card[data-id]');
       if (card) abrirDetalle(card.dataset.id);
-
-      const rail = e.target.closest('.rail-btn[data-accion="escanear"]');
-      if (rail) { e.preventDefault(); Escaner.abrir(); }
     });
 
     /* Si se edita el inventario en otra pestaña, el catálogo se refresca */
-    window.addEventListener('storage', () => { pintarDestacados(); pintar(); });
-    window.addEventListener('focus', () => { pintarDestacados(); pintar(); });
+    const refrescar = () => { pintarNota(); pintarVitrina(); pintar(); };
+    window.addEventListener('storage', refrescar);
+    window.addEventListener('focus', refrescar);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

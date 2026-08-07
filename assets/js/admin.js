@@ -29,7 +29,9 @@
 
   /* ---------- Montaje ---------- */
   function init() {
-    $('#rail').innerHTML = UI.rail('inventario');
+    $('#topbar').innerHTML = UI.barra('inventario');
+    $('#btn-wa-general').href =
+      `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent('Hola, los contacto desde la página web.')}`;
 
     $('#f-categoria').innerHTML = CATEGORIAS.filter(c => c.id !== 'todos')
       .map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
@@ -234,6 +236,11 @@
       clearTimeout(t);
       t = setTimeout(() => { estado.q = e.target.value.trim(); pintarTabla(); }, 160);
     });
+    $('#form-buscar').addEventListener('submit', (e) => {
+      e.preventDefault();
+      estado.q = $('#q').value.trim();
+      pintarTabla();
+    });
 
     $('#filtros').addEventListener('click', (e) => {
       const b = e.target.closest('[data-filtro]');
@@ -287,8 +294,11 @@
     });
 
     document.body.addEventListener('click', (e) => {
-      const rail = e.target.closest('.rail-btn[data-accion="escanear"]');
-      if (rail) { e.preventDefault(); Escaner.abrir(); }
+      const escanear = e.target.closest('[data-accion="escanear"]');
+      if (escanear && !e.target.closest('#modal-escaner')) {
+        e.preventDefault();
+        Escaner.abrir();
+      }
     });
   }
 

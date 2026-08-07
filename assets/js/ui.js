@@ -83,28 +83,47 @@ const UI = (() => {
   const normalizar = (s) => String(s || '').toLowerCase()
     .normalize('NFD').replace(DIACRITICOS, '');
 
-  /* ---------- Rail lateral ---------- */
-  function rail(activo) {
-    const items = [
-      { id: 'inicio',    icon: 'home',    label: 'Inicio',     href: 'index.html' },
-      { id: 'catalogo',  icon: 'catalog', label: 'Catálogo',   href: 'index.html#catalogo' },
-      { id: 'escanear',  icon: 'scan',    label: 'Escanear auto', href: '#', accion: 'escanear' },
-      { id: 'ubicacion', icon: 'pin',     label: 'Ubicación',  href: 'index.html#ubicacion' },
+  /* ---------- Barra superior horizontal ----------
+     Wordmark a la izquierda, links al centro, acciones a la
+     derecha. A todo el ancho y siempre en carbón. */
+  function barra(activo) {
+    const links = [
+      { id: 'destacados', label: 'Destacados', href: 'index.html#destacados' },
+      { id: 'catalogo',   label: 'Catálogo',   href: 'index.html#catalogo' },
+      { id: 'repuestos',  label: 'Repuestos',  href: 'index.html#catalogo', tipo: 'Repuestos' },
+      { id: 'lujos',      label: 'Lujos',      href: 'index.html#catalogo', tipo: 'Lujos' },
+      { id: 'ubicacion',  label: 'Ubicación',  href: 'index.html#ubicacion' },
     ];
-    const abajo = [
-      { id: 'inventario', icon: 'box', label: 'Inventario', href: 'admin.html' },
-    ];
+
     const link = (it) => `
-      <a class="rail-btn ${activo === it.id ? 'is-active' : ''}" href="${it.href}"
-         ${it.accion ? `data-accion="${it.accion}"` : ''} data-tip="${it.label}" aria-label="${it.label}">
-        ${icono(it.icon, 21)}
-      </a>`;
+      <a class="navlink ${activo === it.id ? 'is-active' : ''}" href="${it.href}"
+         ${it.tipo ? `data-tipo-nav="${it.tipo}"` : ''}>${it.label}</a>`;
+
     return `
-      <nav class="rail" aria-label="Navegación principal">
-        <a class="rail-logo" href="index.html" aria-label="${NEGOCIO.nombre}"><span></span></a>
-        <div class="rail-group">${items.map(link).join('')}</div>
-        <div class="rail-group rail-bottom">${abajo.map(link).join('')}</div>
-      </nav>`;
+      <div class="topbar-in">
+        <a class="marca" href="index.html" aria-label="${NEGOCIO.nombre}">
+          <b>Autopartes</b><i></i>
+        </a>
+
+        <nav class="navlinks" aria-label="Navegación principal">
+          ${links.map(link).join('')}
+        </nav>
+
+        <div class="topbar-acciones">
+          <span class="chip-auto" id="chip-auto">
+            <span id="chip-texto"></span>
+            <button id="chip-quitar" aria-label="Quitar filtro de vehículo">${icono('close', 13)}</button>
+          </span>
+          <button class="icon-oscuro" data-accion="escanear" aria-label="Escanear auto" title="Escanear auto">
+            ${icono('scan', 19)}
+          </button>
+          <a class="icon-oscuro ${activo === 'inventario' ? 'is-active' : ''}" href="admin.html"
+             aria-label="Inventario" title="Inventario">${icono('box', 19)}</a>
+          <a class="btn btn--rojo btn--sm" id="btn-wa-general" href="#" target="_blank" rel="noopener">
+            ${icono('wa', 15)} <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>`;
   }
 
   /* ---------- Toast ---------- */
@@ -143,5 +162,5 @@ const UI = (() => {
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarModal(); });
 
-  return { arteProducto, icono, pesos, fecha, escape, normalizar, rail, toast, abrirModal, cerrarModal };
+  return { arteProducto, icono, pesos, fecha, escape, normalizar, barra, toast, abrirModal, cerrarModal };
 })();

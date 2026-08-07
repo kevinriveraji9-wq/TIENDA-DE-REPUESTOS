@@ -10,54 +10,45 @@
 
 <div class="aviso-demo">Panel interno de la maqueta · los cambios se guardan en este navegador</div>
 
-<div id="rail"></div>
+<header class="topbar" id="topbar"></header>
 
 <div class="lienzo">
 
-  <header class="topbar">
-    <div class="topbar-in">
-      <a class="marca" href="index.html">
-        <div><b>Inventario</b><small>Autopartes Pitalito</small></div>
-        <i></i>
-      </a>
-
-      <div class="buscador">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
-        <input type="search" id="q" placeholder="Buscar por nombre, marca o referencia…" aria-label="Buscar en el inventario">
-      </div>
-
-      <div class="topbar-acciones">
-        <button class="btn btn--rojo btn--sm" id="btn-nuevo">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          Nuevo producto
-        </button>
-      </div>
-    </div>
-  </header>
-
   <main class="contenedor">
 
-    <section class="seccion" style="padding-top:32px">
+    <section class="seccion" style="padding-bottom:0">
       <div class="seccion-cabeza">
         <div>
-          <span class="micro">Resumen</span>
-          <h2 style="margin-top:4px">Estado de la bodega</h2>
+          <span class="micro">Panel interno</span>
+          <h2 style="margin-top:8px">Estado de la bodega</h2>
         </div>
-        <button class="btn btn--linea btn--sm" id="btn-restablecer">Restablecer datos demo</button>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn--linea btn--sm" id="btn-restablecer">Restablecer demo</button>
+          <button class="btn btn--rojo btn--sm" id="btn-nuevo">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Nuevo producto</span>
+          </button>
+        </div>
       </div>
       <div class="kpis" id="kpis"></div>
     </section>
 
-    <section class="seccion" style="padding-top:44px">
+    <section class="seccion" style="padding-bottom:0">
       <div class="seccion-cabeza">
         <div>
           <span class="micro">Productos</span>
-          <h2 style="margin-top:4px">Listado de inventario</h2>
+          <h2 style="margin-top:8px">Listado de inventario</h2>
         </div>
         <span class="silencio" style="font-size:13px" id="conteo"></span>
       </div>
 
-      <div class="pills" id="filtros"></div>
+      <div class="catalogo-barra">
+        <form class="buscador buscador--compacto" id="form-buscar" role="search" autocomplete="off">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+          <input type="search" id="q" placeholder="Buscar por nombre, marca o referencia…" aria-label="Buscar en el inventario">
+        </form>
+        <div class="pills" id="filtros"></div>
+      </div>
 
       <div class="tabla-caja">
         <div class="tabla-scroll">
@@ -79,11 +70,11 @@
       </div>
     </section>
 
-    <section class="seccion" style="padding-top:44px">
+    <section class="seccion">
       <div class="seccion-cabeza">
         <div>
           <span class="micro">Kardex</span>
-          <h2 style="margin-top:4px">Últimos movimientos</h2>
+          <h2 style="margin-top:8px">Últimos movimientos</h2>
         </div>
       </div>
       <div class="tabla-caja" style="padding:8px 24px">
@@ -91,7 +82,7 @@
       </div>
     </section>
 
-    <footer>
+    <footer style="border-top:1px solid var(--plata); color:var(--gris)">
       <span>Panel de inventario — maqueta</span>
       <a href="index.html">Ver la tienda →</a>
     </footer>

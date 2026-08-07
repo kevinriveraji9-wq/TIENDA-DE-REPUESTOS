@@ -40,7 +40,6 @@
   --r-full: 9999px;
 
   /* Medidas */
-  --rail: 64px;
   --ancho: 1200px;
 }
 
@@ -77,40 +76,8 @@ svg { display: block; }
 }
 .silencio { color: var(--gris); }
 
-/* ---------- Rail lateral ---------- */
-.rail {
-  position: fixed; inset: 0 auto 0 0; z-index: 40;
-  width: var(--rail); background: var(--carbon);
-  border-right: 1px solid var(--carbon-linea);
-  display: flex; flex-direction: column; align-items: center;
-  padding: 16px 0 20px; gap: 22px;
-}
-.rail-logo {
-  width: 34px; height: 34px; border-radius: var(--r-sm);
-  background: var(--rojo); display: grid; place-items: center; flex: none;
-}
-.rail-logo span { width: 13px; height: 13px; border-radius: 50%; border: 3px solid #fff; }
-.rail-group { display: flex; flex-direction: column; gap: 4px; }
-.rail-bottom { margin-top: auto; }
-.rail-btn {
-  position: relative; width: 48px; height: 48px; border-radius: var(--r-sm);
-  display: grid; place-items: center; color: var(--carbon-texto);
-  transition: background .18s, color .18s;
-}
-.rail-btn:hover { background: var(--carbon-2); color: #fff; }
-.rail-btn.is-active { background: #fff; color: var(--carbon); }
-.rail-btn::after {
-  content: attr(data-tip);
-  position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%);
-  background: #fff; color: var(--carbon); font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: .025em;
-  padding: 6px 10px; border-radius: var(--r-sm); white-space: nowrap;
-  opacity: 0; pointer-events: none; transition: opacity .16s;
-}
-.rail-btn:hover::after { opacity: 1; }
-
 /* ---------- Estructura ---------- */
-.lienzo { margin-left: var(--rail); min-height: 100vh; }
+.lienzo { min-height: 100vh; }
 .contenedor { max-width: var(--ancho); margin: 0 auto; padding: 0 32px; }
 
 /* Bandas a sangre: el ritmo del sistema */
@@ -128,37 +95,69 @@ svg { display: block; }
   gap: 16px; margin-bottom: 24px;
 }
 
-/* ---------- Barra superior ---------- */
+/* ---------- Barra superior horizontal ---------- */
 .topbar {
   position: sticky; top: 0; z-index: 30;
   background: var(--carbon); border-bottom: 1px solid var(--carbon-linea);
 }
 .topbar-in {
-  max-width: var(--ancho); margin: 0 auto; padding: 14px 32px;
-  display: flex; align-items: center; gap: 12px;
+  max-width: var(--ancho); margin: 0 auto; padding: 0 32px; height: 68px;
+  display: flex; align-items: center; gap: 24px;
 }
-.marca { display: flex; align-items: baseline; gap: 3px; flex: none; margin-right: 8px; }
-.marca b { font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: #fff; }
+.marca { display: flex; align-items: baseline; gap: 3px; flex: none; }
+.marca b { font-size: 19px; font-weight: 700; letter-spacing: -.02em; color: #fff; }
 .marca i { width: 6px; height: 6px; border-radius: 50%; background: var(--rojo); display: block; }
-.marca small {
-  display: block; font-size: 11px; font-weight: 500; color: var(--carbon-texto);
-  text-transform: uppercase; letter-spacing: .025em;
-}
 
-/* Buscador: pastilla blanca sobre la barra oscura */
+/* Links centrados */
+.navlinks {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px;
+  min-width: 0; overflow-x: auto; scrollbar-width: none;
+}
+.navlinks::-webkit-scrollbar { display: none; }
+.navlink {
+  padding: 9px 14px; border-radius: var(--r-sm); white-space: nowrap;
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .025em;
+  color: var(--carbon-texto); transition: color .16s, background .16s;
+}
+.navlink:hover { color: #fff; background: var(--carbon-2); }
+.navlink.is-active { color: #fff; }
+
+.topbar-acciones { display: flex; align-items: center; gap: 8px; flex: none; }
+
+.icon-oscuro {
+  width: 38px; height: 38px; border-radius: var(--r-sm);
+  display: grid; place-items: center; color: var(--carbon-texto);
+  transition: background .16s, color .16s;
+}
+.icon-oscuro:hover { background: var(--carbon-2); color: #fff; }
+.icon-oscuro.is-active { background: #fff; color: var(--carbon); }
+
+/* ---------- Buscador ---------- */
 .buscador {
-  flex: 1; display: flex; align-items: center; gap: 8px;
-  background: #fff; border: 1px solid transparent;
-  border-radius: var(--r-pill); padding: 5px 5px 5px 18px;
+  display: flex; align-items: center; gap: 8px;
+  background: #fff; border: 1px solid var(--plata);
+  border-radius: var(--r-pill); padding: 5px 5px 5px 20px;
   transition: border-color .2s; min-width: 0;
 }
 .buscador:focus-within { border-color: var(--rojo); }
 .buscador > svg { color: var(--gris); flex: none; }
 .buscador input {
   flex: 1; min-width: 0; border: 0; outline: 0; background: none;
-  padding: 10px 0; font-size: 15px; color: var(--tinta);
+  padding: 11px 0; font-size: 15px; color: var(--tinta);
 }
 .buscador input::placeholder { color: var(--gris); }
+
+/* Buscador protagonista, centrado dentro del hero oscuro */
+.buscador--hero {
+  max-width: 640px; margin: 36px auto 0; border-color: transparent;
+  padding: 7px 7px 7px 22px;
+}
+.buscador--hero input { padding: 13px 0; font-size: 16px; }
+
+/* Buscador compacto en la cabecera del catálogo */
+.buscador--compacto { flex: 0 1 320px; min-width: 240px; padding: 3px 3px 3px 16px; }
+.buscador--compacto input { padding: 8px 0; font-size: 14px; }
+.buscador--compacto .btn-enviar { width: 34px; height: 34px; }
 
 .btn-escanear {
   display: flex; align-items: center; gap: 7px; flex: none;
@@ -177,8 +176,6 @@ svg { display: block; }
   transition: background .16s;
 }
 .btn-enviar:hover { background: var(--rojo-oscuro); }
-
-.topbar-acciones { display: flex; align-items: center; gap: 8px; flex: none; }
 
 /* Chip del vehículo detectado */
 .chip-auto {
@@ -225,27 +222,72 @@ svg { display: block; }
 .icon-btn:hover { background: var(--niebla); color: var(--tinta); }
 .icon-btn--peligro:hover { background: var(--rojo); color: #fff; border-color: var(--rojo); }
 
-/* ---------- Hero (sobre banda oscura) ---------- */
-.hero {
-  padding: 80px 32px; display: grid; grid-template-columns: 1.1fr .9fr;
-  gap: 48px; align-items: center;
-}
+/* ---------- Hero: pila de texto centrada sobre banda oscura ---------- */
+.hero { padding: 104px 32px 96px; text-align: center; }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   border: 1px solid var(--carbon-linea); color: #fff;
   padding: 7px 16px 7px 12px; border-radius: var(--r-pill);
   font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .025em; margin-bottom: 24px;
+  letter-spacing: .025em; margin-bottom: 28px;
 }
 .hero-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--rojo); }
-.hero h1 { max-width: 14ch; }
-.hero p { margin-top: 20px; color: var(--carbon-texto); font-size: 17px; max-width: 46ch; }
-.hero-acciones { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
-.hero-arte {
+.hero h1 { font-size: 60px; max-width: 16ch; margin: 0 auto; }
+.hero p {
+  margin: 22px auto 0; color: var(--carbon-texto);
+  font-size: 18px; max-width: 54ch;
+}
+.hero-acciones { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.hero-nota {
+  margin-top: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .025em; color: var(--carbon-texto);
+}
+
+/* Vitrina de productos bajo el hero: el escenario oscuro */
+.vitrina {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  padding: 0 32px 96px;
+}
+.vitrina-item {
+  background: var(--carbon-2); border: 1px solid var(--carbon-linea);
+  border-radius: var(--r-card); padding: 24px; text-align: left;
+  display: flex; flex-direction: column; gap: 14px;
+  transition: border-color .18s;
+}
+.vitrina-item:hover { border-color: #fff; }
+.vitrina-img {
   aspect-ratio: 1; background: #fff; border-radius: var(--r-sm);
   display: grid; place-items: center; color: var(--carbon);
 }
-.hero-arte svg { width: 58%; height: 58%; }
+.vitrina-img .art { width: 52%; height: 52%; }
+.vitrina-item .card-marca { color: var(--carbon-texto); }
+.vitrina-item .card-nombre { color: #fff; }
+.vitrina-item .card-precio { color: #fff; }
+
+/* ---------- Cabecera del catálogo ---------- */
+.catalogo-barra {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.catalogo-barra .pills { flex: 1 1 auto; min-width: 0; }
+
+/* ---------- Bloque texto + imagen a dos columnas ---------- */
+.bloque-2col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch;
+}
+.bloque-texto {
+  background: var(--carbon); color: #fff; border-radius: var(--r-card);
+  padding: 48px; display: flex; flex-direction: column; justify-content: center;
+}
+.bloque-texto .micro { color: var(--carbon-texto); }
+.bloque-texto h2 { margin: 10px 0 14px; }
+.bloque-texto p { color: var(--carbon-texto); font-size: 15px; max-width: 42ch; }
+.bloque-texto .btn { margin-top: 26px; align-self: flex-start; }
+.bloque-arte {
+  background: var(--niebla); border: 1px solid var(--plata); border-radius: var(--r-card);
+  display: grid; place-items: center; color: var(--acero); min-height: 340px;
+}
+.bloque-arte svg { width: 44%; height: 44%; }
 
 /* ---------- Píldoras de categoría ---------- */
 .pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
@@ -541,40 +583,43 @@ tbody tr:hover { background: var(--niebla); }
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1000px) {
-  .hero { grid-template-columns: 1fr; padding: 56px 32px; gap: 36px; }
-  .hero-arte { max-width: 280px; }
+@media (max-width: 1060px) {
+  .navlinks { justify-content: flex-start; }
+  .hero { padding: 72px 32px 64px; }
+  .hero h1 { font-size: 46px; }
+  .vitrina { grid-template-columns: repeat(2, 1fr); padding-bottom: 64px; }
   .info-grid { grid-template-columns: 1fr; }
   .kpis { grid-template-columns: repeat(2, 1fr); }
   .detalle { grid-template-columns: 1fr; }
-  h1 { font-size: 40px; }
+  .bloque-2col { grid-template-columns: 1fr; }
+  .bloque-arte { min-height: 240px; }
+}
+
+@media (max-width: 860px) {
+  /* La navegación pasa a una segunda fila deslizable */
+  .topbar-in { height: auto; padding: 12px 18px; flex-wrap: wrap; gap: 12px; }
+  .navlinks { order: 3; flex-basis: 100%; justify-content: flex-start; }
+  .topbar-acciones { margin-left: auto; }
+  .btn--sm span { display: none; }
 }
 
 @media (max-width: 720px) {
-  :root { --rail: 0px; }
-  .rail {
-    inset: auto 0 0 0; width: 100%; height: 62px; flex-direction: row;
-    border-right: 0; border-top: 1px solid var(--carbon-linea); padding: 0 12px;
-    justify-content: space-around; gap: 0; z-index: 50;
-  }
-  .rail-logo { display: none; }
-  .rail-group { flex-direction: row; gap: 4px; }
-  .rail-bottom { margin-top: 0; }
-  .rail-btn::after { display: none; }
-  .lienzo { margin-left: 0; padding-bottom: 76px; }
-  .contenedor, .topbar-in { padding-left: 18px; padding-right: 18px; }
-  .hero { padding: 44px 18px; }
-  .marca small { display: none; }
-  .topbar-in { flex-wrap: wrap; }
-  .buscador { order: 3; width: 100%; flex-basis: 100%; }
+  .contenedor { padding-left: 18px; padding-right: 18px; }
+  .hero { padding: 52px 18px 44px; }
+  .vitrina { padding: 0 18px 52px; gap: 10px; }
+  .vitrina-item { padding: 14px; }
+  h1, .hero h1 { font-size: 34px; }
+  h2 { font-size: 22px; }
+  .hero p { font-size: 16px; }
+  .buscador--hero { margin-top: 26px; }
+  .buscador--compacto { max-width: none; flex-basis: 100%; }
   .btn-escanear span { display: none; }
   .btn-escanear { padding: 8px 10px; }
-  h1 { font-size: 32px; }
-  h2 { font-size: 22px; }
   .seccion { padding: 44px 0; }
   .banda .seccion { padding: 44px 0; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .kpis { grid-template-columns: 1fr 1fr; }
+  .bloque-texto { padding: 32px; }
   .modal { padding: 0; align-items: flex-end; }
   .modal-caja { max-height: 92vh; border-radius: var(--r-card) var(--r-card) 0 0; }
   .fila, .fila-3 { grid-template-columns: 1fr; }

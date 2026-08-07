@@ -13,97 +13,65 @@
 
   <div class="aviso-demo">Maqueta de presentación · los datos y el escáner son de demostración</div>
 
-  <div id="rail"></div>
+  <!-- Barra superior horizontal: wordmark · links · acciones -->
+  <header class="topbar" id="topbar"></header>
 
   <div class="lienzo">
-
-    <header class="topbar">
-      <div class="topbar-in">
-        <a class="marca" href="index.html">
-          <div>
-            <b>Autopartes</b><small>Pitalito, Huila</small>
-          </div>
-          <i></i>
-        </a>
-
-        <form class="buscador" id="form-buscar" role="search" autocomplete="off">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-            stroke-linecap="round">
-            <circle cx="11" cy="11" r="7" />
-            <path d="M16.5 16.5L21 21" />
-          </svg>
-          <input type="search" id="q" placeholder="Busca pastillas, filtro, rines, referencia…"
-            aria-label="Buscar productos">
-          <button type="button" class="btn-escanear" id="btn-escanear" title="Identifica tu carro con la cámara">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-              stroke-linecap="round">
-              <path
-                d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" />
-              <path d="M7 12h10" />
-            </svg>
-            <span>Escanear auto</span>
-          </button>
-          <button type="submit" class="btn-enviar" aria-label="Buscar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h13M13 6l6 6-6 6" />
-            </svg>
-          </button>
-        </form>
-
-        <div class="topbar-acciones">
-          <span class="chip-auto" id="chip-auto">
-            <span id="chip-texto"></span>
-            <button id="chip-quitar" aria-label="Quitar filtro de vehículo">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </button>
-          </span>
-        </div>
-      </div>
-    </header>
-
     <main>
 
-      <!-- Hero — banda oscura a sangre -->
+      <!-- Escenario oscuro: hero centrado + vitrina -->
       <section class="banda banda--oscura">
         <div class="contenedor hero">
-          <div>
-            <span class="hero-eyebrow"><i></i> Entrega el mismo día en Pitalito</span>
-            <h1>Todo para tu carro, en un solo lugar.</h1>
-            <p>Repuestos originales y homologados, y los lujos que le faltan. Escanea tu carro y te mostramos solo lo
-              que le sirve.</p>
-            <div class="hero-acciones">
-              <button class="btn btn--rojo" id="hero-escanear">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-                  stroke-linecap="round">
-                  <path
-                    d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" />
-                  <path d="M7 12h10" />
-                </svg>
-                Escanear mi carro
-              </button>
-              <a class="btn btn--linea" href="#catalogo">Ver catálogo</a>
-            </div>
-          </div>
-          <div class="hero-arte" id="hero-arte"></div>
-        </div>
-      </section>
+          <span class="hero-eyebrow"><i></i> Entrega el mismo día en Pitalito</span>
+          <h1>Todo para tu carro, en un solo lugar.</h1>
+          <p>Repuestos originales y homologados, y los lujos que le faltan. Escanea tu carro con la cámara y te
+            mostramos solo lo que le sirve.</p>
 
-      <!-- Destacados — sección clara sobre blanco -->
-      <div class="contenedor">
-        <section class="seccion" id="destacados">
-          <div class="seccion-cabeza">
-            <div>
-              <span class="micro">Lo que más sale</span>
-              <h2 style="margin-top:8px">Destacados de la semana</h2>
-            </div>
+          <form class="buscador buscador--hero" id="form-buscar" role="search" autocomplete="off">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M16.5 16.5L21 21" />
+            </svg>
+            <input type="search" id="q" placeholder="Busca pastillas, filtro, rines, referencia…"
+              aria-label="Buscar productos">
+            <button type="button" class="btn-escanear" data-accion="escanear"
+              title="Identifica tu carro con la cámara">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round">
+                <path
+                  d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" />
+                <path d="M7 12h10" />
+              </svg>
+              <span>Escanear auto</span>
+            </button>
+            <button type="submit" class="btn-enviar" aria-label="Buscar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h13M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </form>
+
+          <div class="hero-acciones">
+            <button class="btn btn--rojo" data-accion="escanear">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round">
+                <path
+                  d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" />
+                <path d="M7 12h10" />
+              </svg>
+              Escanear mi carro
+            </button>
+            <a class="btn btn--linea" href="#catalogo">Ver catálogo completo</a>
           </div>
-          <div class="grid" id="grid-destacados"></div>
-        </section>
-      </div>
+
+          <p class="hero-nota" id="hero-nota">—</p>
+        </div>
+
+        <!-- Vitrina: los destacados sobre el escenario oscuro -->
+        <div class="contenedor vitrina" id="vitrina"></div>
+      </section>
 
       <!-- Catálogo — banda clara -->
       <section class="banda banda--clara" id="catalogo">
@@ -117,7 +85,24 @@
               <span class="silencio" style="font-size:13px" id="conteo-catalogo"></span>
             </div>
 
-            <div class="pills" id="pills-tipo" style="margin-bottom:10px"></div>
+            <div class="catalogo-barra">
+              <form class="buscador buscador--compacto" id="form-buscar-2" role="search" autocomplete="off">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                  stroke-linecap="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M16.5 16.5L21 21" />
+                </svg>
+                <input type="search" id="q2" placeholder="Filtrar el catálogo…" aria-label="Filtrar el catálogo">
+                <button type="submit" class="btn-enviar" aria-label="Buscar">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h13M13 6l6 6-6 6" />
+                  </svg>
+                </button>
+              </form>
+              <div class="pills" id="pills-tipo"></div>
+            </div>
+
             <div class="pills" id="pills-categoria" style="margin-bottom:24px"></div>
 
             <div class="grid" id="grid-catalogo"></div>
@@ -125,9 +110,27 @@
         </div>
       </section>
 
-      <!-- Servicios -->
+      <!-- Bloque a dos columnas: texto sobre carbón + arte -->
       <div class="contenedor">
         <section class="seccion">
+          <div class="bloque-2col">
+            <div class="bloque-texto">
+              <span class="micro">Instalación en el local</span>
+              <h2>Lo compras y sales rodando.</h2>
+              <p>Montamos rines, audio, polarizado y luces el mismo día de la compra. Traes el carro, lo dejas un rato
+                y te lo llevas listo — sin buscar taller aparte.</p>
+              <a class="btn btn--rojo" id="btn-wa-taller" href="#" target="_blank" rel="noopener">
+                Agendar instalación
+              </a>
+            </div>
+            <div class="bloque-arte" id="bloque-arte"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Servicios -->
+      <div class="contenedor">
+        <section class="seccion" style="padding-top:0">
           <div class="seccion-cabeza">
             <div>
               <span class="micro">Por qué comprarnos</span>
@@ -157,10 +160,11 @@
             <div class="info-card">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
                 stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 20h4L20 8l-4-4L4 16z" />
+                <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z" />
+                <circle cx="12" cy="10" r="2.6" />
               </svg>
-              <h3>Instalación en el local</h3>
-              <p>Montamos rines, audio, polarizado y luces el mismo día de la compra.</p>
+              <h3>Estamos en el centro</h3>
+              <p>A dos cuadras del parque. Parqueadero al frente para dejar el carro.</p>
             </div>
           </div>
         </section>
@@ -175,12 +179,12 @@
                 <span class="micro">Visítanos</span>
                 <h2 style="margin-top:8px">Estamos en Pitalito, Huila</h2>
               </div>
-              <a class="btn btn--rojo btn--sm" id="btn-wa-general" href="#" target="_blank" rel="noopener">
+              <a class="btn btn--rojo btn--sm" id="btn-wa-mapa" href="#" target="_blank" rel="noopener">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3.5 20.5l1.3-4.6A8.2 8.2 0 1 1 8.4 19l-4.9 1.5z" />
                 </svg>
-                Escríbenos por WhatsApp
+                <span>Escríbenos por WhatsApp</span>
               </a>
             </div>
             <div class="mapa">
