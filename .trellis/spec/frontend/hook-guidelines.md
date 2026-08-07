@@ -1,51 +1,70 @@
-# Hook Guidelines
+# Módulos y ciclo de vida
 
-> How hooks are used in this project.
-
----
-
-## Overview
-
-<!--
-Document your project's hook conventions here.
-
-Questions to answer:
-- What custom hooks do you have?
-- How do you handle data fetching?
-- What are the naming conventions?
-- How do you share stateful logic?
--->
-
-(To be filled by the team)
+> **Este proyecto no tiene hooks.** No hay React. El archivo conserva el
+> nombre que genera Trellis, pero documenta lo que ocupa ese lugar aquí:
+> cómo se organiza un módulo y cuándo arranca.
 
 ---
 
-## Custom Hook Patterns
+## Patrón de módulo
 
-<!-- How to create and structure custom hooks -->
+Dos formas, según si expone API o no.
 
-(To be filled by the team)
+**Módulo con API pública** — IIFE que devuelve un objeto (`DB`, `UI`, `Escaner`):
+
+```js
+const DB = (() => {
+  const KEY = 'ap_pitalito_inventario_v1';   // privado
+  function leer() { /* ... */ }              // privada
+
+  const api = {
+    todos: () => leer(),
+    crear(datos) { /* ... */ },
+  };
+  return api;
+})();
+```
+
+**Módulo de página** — IIFE que no devuelve nada (`tienda.js`, `admin.js`).
+Todo queda encapsulado; al DOM solo se llega por los manejadores.
 
 ---
 
-## Data Fetching
+## Arranque
 
-<!-- How data fetching is handled (React Query, SWR, etc.) -->
+Ambas páginas terminan igual, y esto **no es opcional**:
 
-(To be filled by the team)
+```js
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+```
+
+Los `<script>` van al final del `<body>`, así que normalmente el DOM ya está
+listo. La guarda cubre el caso en que el script se evalúe después de que
+`DOMContentLoaded` ya disparó — pasó con visores que inyectan los scripts, y
+sin la guarda la página quedaba en blanco.
 
 ---
 
-## Naming Conventions
+## Orden dentro de `init()`
 
-<!-- Hook naming rules (use*, etc.) -->
+1. Pintar la barra superior (`UI.barra(...)`) — **primero**, porque crea
+   nodos que los pasos siguientes buscan (`#chip-auto`, `#btn-wa-general`).
+2. Rellenar textos fijos desde `NEGOCIO`.
+3. Pintar las secciones dinámicas.
+4. Montar el escáner (`Escaner.montar(callback)`).
+5. Enganchar eventos (`eventos()`) — **al final**, cuando todo existe.
 
-(To be filled by the team)
+Saltarse el orden produce `null` al buscar elementos que aún no se han
+creado.
 
 ---
 
-## Common Mistakes
+## Limpieza
 
-<!-- Hook-related mistakes your team has made -->
+El escáner es el único módulo con recursos que hay que liberar: la cámara
+(`MediaStream`) y los temporizadores del análisis. Ambos se sueltan en
+`limpiar()`, que se invoca al cerrar el modal, al cancelar y con `Escape`.
 
-(To be filled by the team)
+Cualquier módulo nuevo que abra cámara, temporizadores o listeners globales
+debe exponer su propio `limpiar()` y llamarlo en los mismos tres puntos.

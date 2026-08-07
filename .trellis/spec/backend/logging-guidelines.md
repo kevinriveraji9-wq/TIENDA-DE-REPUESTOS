@@ -1,51 +1,55 @@
-# Logging Guidelines
+# Registro
 
-> How logging is done in this project.
-
----
-
-## Overview
-
-<!--
-Document your project's logging conventions here.
-
-Questions to answer:
-- What logging library do you use?
-- What are the log levels and when to use each?
-- What should be logged?
-- What should NOT be logged (PII, secrets)?
--->
-
-(To be filled by the team)
+> **Este proyecto no hace logging.** No hay `console.log` en el código
+> entregado, ni niveles, ni servicio de telemetría. No hay servidor donde
+> escribir.
 
 ---
 
-## Log Levels
+## Por qué
 
-<!-- When to use each level: debug, info, warn, error -->
+El código se le entrega a un cliente y corre en el navegador de sus
+visitantes. Una consola llena de mensajes de depuración es ruido visible
+para cualquiera que abra las herramientas de desarrollo.
 
-(To be filled by the team)
-
----
-
-## Structured Logging
-
-<!-- Log format, required fields -->
-
-(To be filled by the team)
+`console.log` sirve mientras se depura. **Se quita antes de commitear.**
 
 ---
 
-## What to Log
+## Lo que sí se registra
 
-<!-- Important events to log -->
+**El kardex** (`assets/js/db.js`) es la única bitácora, y es de negocio, no
+técnica: quién movió qué stock, cuánto y por qué.
 
-(To be filled by the team)
+```js
+DB.registrarMovimiento(id, 'entrada', 5, 'Entrada rápida');
+```
+
+Se guarda tipo, cantidad, nota y fecha ISO; se muestra en el panel bajo
+"Últimos movimientos"; se recorta a 200 entradas.
+
+**Cada operación que cambie stock debe registrar su movimiento.** Si se
+agrega una forma nueva de mover inventario (una venta, una devolución), va
+con su `registrarMovimiento` y una nota que el dueño entienda.
 
 ---
 
-## What NOT to Log
+## Notas de movimiento
 
-<!-- Sensitive data, PII, secrets -->
+Van en español y describen el hecho, no la implementación:
 
-(To be filled by the team)
+| Bien | Mal |
+|---|---|
+| `Entrada rápida` | `stepper +1` |
+| `Edición manual` | `PUT /producto` |
+| `Producto creado` | `DB.crear()` |
+
+---
+
+## Depuración
+
+Mientras se trabaja: consola del navegador, `debugger`, e inspección directa
+del estado desde la consola (`DB.todos()`, `DB.resumen()` están disponibles
+como globales, lo cual es útil a propósito).
+
+Nada de eso queda en el código commiteado.

@@ -1,54 +1,52 @@
-# Directory Structure
+# Estructura — capa de datos
 
-> How backend code is organized in this project.
-
----
-
-## Overview
-
-<!--
-Document your project's backend directory structure here.
-
-Questions to answer:
-- How are modules/packages organized?
-- Where does business logic live?
-- Where are API endpoints defined?
-- How are utilities and helpers organized?
--->
-
-(To be filled by the team)
+> **Este proyecto no tiene backend.** No hay servidor, ni API, ni base de
+> datos, ni build. Los archivos de este directorio documentan lo que ocupa
+> ese lugar: la capa de datos sobre `localStorage`.
 
 ---
 
-## Directory Layout
+## Los dos archivos
+
+| Archivo | Rol |
+|---|---|
+| `assets/js/data.js` | **Semilla y configuración.** Constantes puras, sin lógica: `PRODUCTOS_SEED`, `VEHICULOS`, `CATEGORIAS`, `MARCAS_AUTO`, `NEGOCIO` |
+| `assets/js/db.js` | **Acceso y persistencia.** El módulo `DB`: CRUD, ajustes de stock, kardex y métricas |
+
+`assets/js/logos.js` es generado, no se edita a mano: sale de los SVG de
+`assets/logos/` (ver `database-guidelines.md`).
+
+---
+
+## Frontera
+
+`db.js` es el **único** archivo que toca `localStorage`. Todo lo demás pasa
+por la API de `DB`. Esa frontera es lo que permite que la tienda y el panel
+de inventario no se desincronicen, y lo que haría posible cambiar a un
+servidor real tocando un solo archivo.
 
 ```
-<!-- Replace with your actual structure -->
-src/
-├── ...
-└── ...
+tienda.js ─┐
+           ├─→ DB ──→ localStorage
+admin.js  ─┘
 ```
 
 ---
 
-## Module Organization
+## Datos del negocio
 
-<!-- How should new features/modules be organized? -->
+`NEGOCIO`, al final de `data.js`, tiene los datos reales del cliente:
+nombre, eslogan, ciudad, dirección, teléfono, WhatsApp y horario. De ahí
+salen los enlaces `wa.me` y los textos del pie y el mapa.
 
-(To be filled by the team)
-
----
-
-## Naming Conventions
-
-<!-- File and folder naming rules -->
-
-(To be filled by the team)
+**Nunca escribir esos valores directo en el HTML o en la lógica.** Cambiar
+de cliente o corregir un teléfono debe ser editar un solo objeto.
 
 ---
 
-## Examples
+## Si el proyecto crece a servidor real
 
-<!-- Link to well-organized modules as examples -->
-
-(To be filled by the team)
+El camino previsto, en orden: reemplazar el cuerpo de las funciones de `DB`
+por llamadas HTTP manteniendo la misma firma; mover `PRODUCTOS_SEED` a una
+migración; y proteger `admin.html` con autenticación. La forma de la API de
+`DB` ya está pensada para ese cambio — no romperla.
