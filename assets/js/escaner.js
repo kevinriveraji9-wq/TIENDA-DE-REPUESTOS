@@ -41,7 +41,7 @@ const Escaner = (() => {
               repuestos que le sirven a tu carro.
             </div>
             <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-              <button class="btn btn--violeta" data-accion="camara" style="flex:1">
+              <button class="btn btn--rojo" data-accion="camara" style="flex:1">
                 ${UI.icono('camera', 18)} Activar cámara
               </button>
               <button class="btn btn--claro" data-accion="manual">Elegir manualmente</button>
@@ -81,7 +81,7 @@ const Escaner = (() => {
             </div>
             <div class="escaner-nota" data-campo="conteo">—</div>
             <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-              <button class="btn btn--violeta" data-accion="confirmar" style="flex:1">
+              <button class="btn btn--rojo" data-accion="confirmar" style="flex:1">
                 Ver repuestos compatibles ${UI.icono('arrow', 18)}
               </button>
               <button class="btn btn--claro" data-accion="manual">No es mi carro</button>
@@ -105,7 +105,7 @@ const Escaner = (() => {
               En la versión final este listado sale del catálogo de vehículos del taller.
             </div>
             <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-              <button class="btn btn--violeta" data-accion="confirmar-manual" style="flex:1">Aplicar filtro</button>
+              <button class="btn btn--rojo" data-accion="confirmar-manual" style="flex:1">Aplicar filtro</button>
               <button class="btn btn--claro" data-accion="reiniciar">Volver a escanear</button>
             </div>
           </div>

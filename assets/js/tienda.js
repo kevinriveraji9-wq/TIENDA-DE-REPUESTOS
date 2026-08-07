@@ -73,7 +73,7 @@
       ? '<span class="badge badge--agotado card-flag">Agotado</span>'
       : est === 'bajo'
         ? `<span class="badge badge--bajo card-flag">Últimas ${p.stock}</span>`
-        : p.destacado ? '<span class="badge badge--violeta card-flag">Destacado</span>' : '';
+        : p.destacado ? '<span class="badge badge--rojo card-flag">Destacado</span>' : '';
 
     return `
       <button class="card" data-id="${p.id}">
@@ -143,7 +143,7 @@
           <div class="detalle-precio">${UI.pesos(p.precio)}</div>
           <p class="detalle-desc">${UI.escape(p.descripcion)}</p>
 
-          <a class="btn btn--violeta btn--bloque" href="${enlaceWhatsApp(mensaje)}" target="_blank" rel="noopener">
+          <a class="btn btn--rojo btn--bloque" href="${enlaceWhatsApp(mensaje)}" target="_blank" rel="noopener">
             ${UI.icono('wa', 18)} Consultar por WhatsApp
           </a>
 
