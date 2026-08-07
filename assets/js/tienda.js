@@ -27,6 +27,7 @@
     $('#btn-wa-taller').href = enlaceWhatsApp('Hola, quiero agendar una instalación.');
 
     pintarNota();
+    pintarCinta();
     pintarFiltros();
     pintarVitrina();
     pintar();
@@ -43,6 +44,18 @@
     const r = DB.resumen();
     $('#hero-nota').textContent =
       `${r.referencias} referencias disponibles · ${r.unidades} unidades en bodega`;
+  }
+
+  /* La lista va duplicada: la animación corre media pista y reinicia sin salto */
+  function pintarCinta() {
+    const marcas = LOGOS_MARCAS.map(m => `
+      <span class="cinta-item" title="${UI.escape(m.nombre)}">
+        <svg class="cinta-logo" viewBox="0 0 24 24" fill="currentColor" role="img"
+             aria-label="${UI.escape(m.nombre)}">
+          ${m.paths.map(d => `<path d="${d}"/>`).join('')}
+        </svg>
+      </span>`).join('');
+    $('#cinta-pista').innerHTML = marcas + marcas;
   }
 
   /* ---------- Filtros ---------- */
