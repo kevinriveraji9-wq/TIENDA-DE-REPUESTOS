@@ -14,7 +14,7 @@ const VEHICULOS = [
 const MARCAS_AUTO = ['Chevrolet', 'Renault', 'Mazda', 'Toyota', 'Kia', 'Hyundai', 'Nissan', 'Ford', 'Suzuki', 'Volkswagen'];
 
 const CATEGORIAS = [
-  { id: 'todos',      nombre: 'Todo',          icon: 'grid' },
+  { id: 'todos',      nombre: 'Todas',         icon: 'grid' },
   { id: 'frenos',     nombre: 'Frenos',        icon: 'disc' },
   { id: 'motor',      nombre: 'Motor',         icon: 'filter' },
   { id: 'suspension', nombre: 'Suspensión',    icon: 'shock' },

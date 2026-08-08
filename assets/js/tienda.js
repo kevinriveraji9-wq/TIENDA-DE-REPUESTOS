@@ -59,21 +59,50 @@
   }
 
   /* ---------- Filtros ---------- */
+
+  /* Productos que pasan los filtros estructurales: tipo y vehículo. Es la
+     base para contar. Deliberadamente ignora el buscador, para que las
+     píldoras no bailen mientras se escribe. */
+  function base(sinTipo) {
+    return DB.todos().filter(p => {
+      if (!sinTipo && estado.tipo !== 'todos' && p.tipo !== estado.tipo) return false;
+      if (estado.vehiculo && !p.compat.includes('universal')
+          && !p.compat.includes(estado.vehiculo.id)) return false;
+      return true;
+    });
+  }
+
   function pintarFiltros() {
+    /* --- Tipo, con su conteo --- */
+    const universo = base(true);
     const tipos = [
-      { id: 'todos', nombre: 'Todo', icon: 'grid' },
-      { id: 'Repuestos', nombre: 'Repuestos', icon: 'box' },
-      { id: 'Lujos', nombre: 'Lujos', icon: 'tag' },
+      { id: 'todos', nombre: 'Todo', icon: 'grid', n: universo.length },
+      { id: 'Repuestos', nombre: 'Repuestos', icon: 'box', n: universo.filter(p => p.tipo === 'Repuestos').length },
+      { id: 'Lujos', nombre: 'Lujos', icon: 'tag', n: universo.filter(p => p.tipo === 'Lujos').length },
     ];
     $('#pills-tipo').innerHTML = tipos.map(t => `
       <button class="pill ${estado.tipo === t.id ? 'is-active' : ''}" data-tipo="${t.id}">
-        ${UI.icono(t.icon, 16)} ${t.nombre}
+        ${UI.icono(t.icon, 16)} ${t.nombre} <span class="pill-n">${t.n}</span>
       </button>`).join('');
 
-    $('#pills-categoria').innerHTML = CATEGORIAS.map(c => `
-      <button class="pill ${estado.categoria === c.id ? 'is-active' : ''}" data-categoria="${c.id}">
-        ${UI.arteProducto(c.icon, 'art')} ${c.nombre}
-      </button>`).join('');
+    /* --- Categorías: solo las que tienen algo bajo el tipo elegido --- */
+    const disponibles = base(false);
+    const cuenta = {};
+    disponibles.forEach(p => { cuenta[p.categoria] = (cuenta[p.categoria] || 0) + 1; });
+
+    /* Si la categoría activa se quedó sin productos al cambiar de tipo,
+       se vuelve a "Todas" en vez de dejar la grilla vacía. */
+    if (estado.categoria !== 'todos' && !cuenta[estado.categoria]) estado.categoria = 'todos';
+
+    $('#pills-categoria').innerHTML = CATEGORIAS
+      .filter(c => c.id === 'todos' || cuenta[c.id])
+      .map(c => {
+        const n = c.id === 'todos' ? disponibles.length : cuenta[c.id];
+        return `
+          <button class="pill ${estado.categoria === c.id ? 'is-active' : ''}" data-categoria="${c.id}">
+            ${UI.arteProducto(c.icon, 'art')} ${c.nombre} <span class="pill-n">${n}</span>
+          </button>`;
+      }).join('');
 
     document.querySelectorAll('[data-tipo-nav]').forEach(a => {
       a.classList.toggle('is-active', a.dataset.tipoNav === estado.tipo);
@@ -210,6 +239,7 @@
     $('#chip-texto').textContent = `${v.marca} ${v.linea} ${v.anio}`;
     $('#chip-auto').classList.add('visible');
     UI.toast(`Filtrando para ${v.marca} ${v.linea}`);
+    pintarFiltros();   // los conteos y las categorías dependen del vehículo
     pintar();
     irAlCatalogo();
   }
@@ -217,6 +247,7 @@
   function quitarVehiculo() {
     estado.vehiculo = null;
     $('#chip-auto').classList.remove('visible');
+    pintarFiltros();
     pintar();
   }
 
@@ -290,7 +321,7 @@
     });
 
     /* Si se edita el inventario en otra pestaña, el catálogo se refresca */
-    const refrescar = () => { pintarNota(); pintarVitrina(); pintar(); };
+    const refrescar = () => { pintarNota(); pintarVitrina(); pintarFiltros(); pintar(); };
     window.addEventListener('storage', refrescar);
     window.addEventListener('focus', refrescar);
   }
