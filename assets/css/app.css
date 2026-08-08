@@ -343,6 +343,7 @@ svg { display: block; }
   border-radius: var(--r-card); padding: 24px; text-align: left;
   display: flex; flex-direction: column; gap: 14px;
   transition: border-color .18s;
+  min-width: 0;   /* permite que la tarjeta se encoja en la grilla */
 }
 .vitrina-item:hover { border-color: #fff; }
 .vitrina-img {
@@ -746,23 +747,35 @@ html.cursor-propio.cursor-fuera .cursor-mira { opacity: 0; }
 }
 
 @media (max-width: 860px) {
-  /* La navegación pasa a una segunda fila deslizable */
-  .topbar-in { height: auto; padding: 12px 18px; flex-wrap: wrap; gap: 12px; }
-  .navlinks { order: 3; flex-basis: 100%; justify-content: flex-start; }
+  /* Cabecera en una fila compacta; el menú baja a una tira deslizable con
+     borde desvanecido a la derecha, que avisa que hay más al hacer swipe. */
+  .topbar-in { height: auto; padding: 10px 18px; flex-wrap: wrap; gap: 10px; row-gap: 8px; }
+  .navlinks {
+    order: 3; flex-basis: 100%; justify-content: flex-start; gap: 2px;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent);
+    mask-image: linear-gradient(90deg, #000 86%, transparent);
+  }
+  .navlink { padding: 8px 12px; }
   .topbar-acciones { margin-left: auto; }
   .btn--sm span { display: none; }
+  .btn--sm { padding: 9px; }   /* el boton de WhatsApp queda circular */
 }
 
 @media (max-width: 720px) {
   .contenedor { padding-left: 18px; padding-right: 18px; }
-  .hero { padding: 52px 18px 44px; }
-  .vitrina { padding: 0 18px 52px; gap: 10px; }
-  .vitrina-item { padding: 14px; }
-  .hero p { font-size: 16px; }
+  .hero { padding: 44px 18px 40px; }
+  .hero p { font-size: 15px; }
   .buscador--hero { margin-top: 26px; }
   .buscador--compacto { max-width: none; flex-basis: 100%; }
   .btn-escanear span { display: none; }
   .btn-escanear { padding: 8px 10px; }
+  /* Vitrina y catálogo comparten la misma grilla que sí cabe en el teléfono */
+  .vitrina {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 0 18px 52px; gap: 10px;
+  }
+  .vitrina-item { padding: 14px; }
   .seccion { padding: 44px 0; }
   .banda .seccion { padding: 44px 0; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
@@ -772,4 +785,13 @@ html.cursor-propio.cursor-fuera .cursor-mira { opacity: 0; }
   .modal-caja { max-height: 92vh; border-radius: var(--r-card) var(--r-card) 0 0; }
   .fila, .fila-3 { grid-template-columns: 1fr; }
   .resultado-auto { flex-direction: column; text-align: center; }
+}
+
+/* Teléfonos angostos: cabecera aún más ajustada y titular a la medida */
+@media (max-width: 400px) {
+  .marca b { font-size: 17px; }
+  .topbar-acciones { gap: 6px; }
+  .icon-oscuro { width: 34px; height: 34px; }
+  .hero h1 { font-size: clamp(2.25rem, 1.4rem + 5vw, 2.75rem); }
+  .vitrina, .grid { grid-template-columns: 1fr 1fr; }
 }
