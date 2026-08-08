@@ -22,6 +22,9 @@
     /* Solo ahora se oculta el puntero del sistema: si algo falló antes,
        el usuario se queda con el cursor normal en vez de sin ninguno. */
     raiz.classList.add('cursor-propio');
+    /* Oculta hasta el primer movimiento: si no, aparece pegada en la
+       esquina superior izquierda mientras el mouse sigue quieto. */
+    raiz.classList.add('cursor-fuera');
 
     let x = 0, y = 0, pendiente = false;
 
